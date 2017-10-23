@@ -33,30 +33,29 @@
 
   <div *ngIf="leaders">
     <ion-card>
-        <ion-card-content center>
+      <ion-card-content center>
         <ion-card-title>
           <h2>Corporate Leadership</h2>
-      </ion-card-title>       
-        <!-- <ion-card-content *ngFor="let leader of leaders">  --> 
-          <ion-row *ngFor="let leader of leaders">
-            <ion-col col-auto>
-              <ion-item>
-                <ion-avatar>
-                  <img src="{{BaseURL + leader.image}}" />
-                </ion-avatar>
-              </ion-item>
-            </ion-col>
-            <ion-col> 
-              <h3>{{ leader.name }}</h3>
-              <h4>{{ leader.designation }}</h4>
-              <p>{{ leader.description }}</p>
-              <br>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-    </ion-card>
-    
+        </ion-card-title>       
+        <ion-row *ngFor="let leader of leaders">
+          <ion-col col-auto>
+            <ion-item>
+              <ion-avatar>
+                <img src="{{BaseURL + leader.image}}" />
+              </ion-avatar>
+            </ion-item>
+          </ion-col>
+          <ion-col> 
+            <h3>{{ leader.name }}</h3>
+            <h4>{{ leader.designation }}</h4>
+            <p>{{ leader.description }}</p>
+            <br>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card> 
   </div>
+  
   <div [hidden]="leaders || errMess">
     <ion-spinner></ion-spinner>
     <h4>Loading . . . Please Wait</h4>
