@@ -33,11 +33,12 @@
 
   <div *ngIf="leaders">
     <ion-card>
-      <ion-card-title>
+        <ion-card-content center>
+        <ion-card-title>
           <h2>Corporate Leadership</h2>
       </ion-card-title>       
-        <ion-card-content *ngFor="let leader of leaders">  
-          <ion-row>
+        <!-- <ion-card-content *ngFor="let leader of leaders">  --> 
+          <ion-row *ngFor="let leader of leaders">
             <ion-col col-auto>
               <ion-item>
                 <ion-avatar>
@@ -49,6 +50,7 @@
               <h3>{{ leader.name }}</h3>
               <h4>{{ leader.designation }}</h4>
               <p>{{ leader.description }}</p>
+              <br>
             </ion-col>
           </ion-row>
         </ion-card-content>
