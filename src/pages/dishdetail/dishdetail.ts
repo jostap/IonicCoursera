@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ActionSheetController, ModalController } from 'ionic-angular';
 import { Dish } from '../../shared/dish';
 import { Comment } from '../../shared/comment';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
+import { CommentPage } from '../comment/comment';
 
 /**
  * Generated class for the DishdetailPage page.
@@ -23,12 +24,14 @@ export class DishdetailPage {
   avgstars: string;
   numcomments: number;
   favorite: boolean = false;
+  comment: Comment;
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     @Inject('BaseURL') private BaseURL,
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
+    private modalCtrl: ModalController,
     private favoriteservice: FavoriteProvider) {
       this.dish = navParams.get('dish');
       this.favorite = this.favoriteservice.isFavorite(this.dish.id);
@@ -70,6 +73,7 @@ export class DishdetailPage {
           text: 'Add Comment',
           handler: () => {
             console.log('Add Comment clicked');
+            this.openAddComment();
           }
         },
         {
@@ -83,6 +87,18 @@ export class DishdetailPage {
     });
 
     actionShet.present();
+  }
+
+  openAddComment() {
+    let modalAddComment = this.modalCtrl.create(CommentPage);
+    modalAddComment.present();
+    modalAddComment.onDidDismiss(inputComment => { this.comment = inputComment;
+      if(this.comment.author != ''){
+        var date = new Date();
+        this.comment.date = date.toISOString();
+        this.dish.comments.push(this.comment);
+      }      
+    });
   }
 
 }
