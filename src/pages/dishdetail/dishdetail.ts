@@ -4,6 +4,7 @@ import { Dish } from '../../shared/dish';
 import { Comment } from '../../shared/comment';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
 import { CommentPage } from '../comment/comment';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the DishdetailPage page.
@@ -32,7 +33,9 @@ export class DishdetailPage {
     private toastCtrl: ToastController,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private favoriteservice: FavoriteProvider) {
+    private favoriteservice: FavoriteProvider,
+    private storage: Storage) {
+
       this.dish = navParams.get('dish');
       this.favorite = this.favoriteservice.isFavorite(this.dish.id);
       this.numcomments = this.dish.comments.length;
@@ -40,6 +43,12 @@ export class DishdetailPage {
       let total = 0;
       this.dish.comments.forEach(comment => total += comment.rating);
       this.avgstars = (total / this.numcomments).toFixed(2);
+
+      storage.get('favorite').then(favorite => {
+
+          console.log(favorite);
+ 
+        });
   }
 
   ionViewDidLoad() {
@@ -48,6 +57,7 @@ export class DishdetailPage {
 
   addToFavorites() {
     console.log('Adding to Favorites', this.dish.id);
+    this.storage.set('favorite', this.dish.id);
     this.favorite = this.favoriteservice.addFavorite(this.dish.id);
 
     this.toastCtrl.create({
