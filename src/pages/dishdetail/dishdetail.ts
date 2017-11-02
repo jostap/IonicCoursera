@@ -26,6 +26,7 @@ export class DishdetailPage {
   numcomments: number;
   favorite: boolean = false;
   comment: Comment;
+  favs: number[] = new Array();
 
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
@@ -44,11 +45,14 @@ export class DishdetailPage {
       this.dish.comments.forEach(comment => total += comment.rating);
       this.avgstars = (total / this.numcomments).toFixed(2);
 
-      storage.get('favorite').then(favorite => {
-
-          console.log(favorite);
- 
-        });
+      storage.get('favorites').then(favorites => {
+        if(favorites) {
+          console.log(favorites);
+          this.favs = favorites;
+        }
+        else
+          console.log('HEJ');
+      });
   }
 
   ionViewDidLoad() {
@@ -57,7 +61,8 @@ export class DishdetailPage {
 
   addToFavorites() {
     console.log('Adding to Favorites', this.dish.id);
-    this.storage.set('favorite', this.dish.id);
+    this.favs.push(this.dish.id);
+    this.storage.set('favorites', this.favs);
     this.favorite = this.favoriteservice.addFavorite(this.dish.id);
 
     this.toastCtrl.create({
